@@ -1,4 +1,3 @@
-* {
-	reverse_proxy app:3000
-}
+localhost # This serves the HTTPS server at localhost:443 in this container. This port is mapped to the host machine at 8443.
 
+respond "Hello, privacy!"

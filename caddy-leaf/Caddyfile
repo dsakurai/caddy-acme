@@ -1,0 +1,8 @@
+leaf.local:443 {
+
+	tls {
+		ca https://caddy-ca/acme/local/directory
+	}
+
+	respond "CA leaf running."
+}

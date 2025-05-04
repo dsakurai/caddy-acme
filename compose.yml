@@ -1,12 +1,60 @@
 services:
-  caddy:
+  caddy-ca:
     image: caddy:latest
+    container_name: caddy-ca
     restart: unless-stopped
-    ports:
-      - "8443:443"
-      - "8443:443/udp"
+    networks:
+      - caddy-net
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:Z
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro,Z
       - ./site:/srv:Z
-      - ./caddy_data:/data:Z
+      - ./caddy_data:/data:z
       - ./caddy_config:/config:Z
+      - ./ca_root:/ca_root:z
+    expose:
+      - "2019" # Internal admin API (no need to publish)
+      - "9000" # Internal admin API (no need to publish)
+      - "80" # Internal admin API (no need to publish)
+      - "443" # Internal admin API (no need to publish)
+    extra_hosts:
+      - "leaf.local:caddy-leaf"
+    networks:
+      caddy-net:
+        ipv4_address: 10.89.1.11
+    extra_hosts:
+      - "leaf.local:10.89.1.10"  # <-- valid IP now
+
+  caddy-leaf:
+    depends_on:
+      - caddy-ca
+    # image: caddy:latest
+    build:
+      context: .
+      dockerfile: ./caddy-leaf/Dockerfile
+    container_name: caddy-leaf
+    restart: unless-stopped
+    networks:
+      caddy-net:
+        ipv4_address: 10.89.1.10
+    volumes:
+      - ./caddy-leaf/Caddyfile:/etc/caddy/Caddyfile:ro,Z
+      - ./caddy-leaf/site:/srv:Z
+      - ./caddy-leaf/caddy_data:/data:Z
+      - ./caddy-leaf/caddy_config:/config:Z
+      - ./caddy_data/caddy/pki/authorities/local/root.crt:/acme/root.crt:ro,z
+    ports:
+      - "8000:443" # HTTPS leaf exposed
+    expose:
+      - "443"
+    environment:
+      - CADDY_INSECURE_ACME=1
+      - CADDY_INSECURE_TLS=1
+
+networks:
+  caddy-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.89.1.0/24
+
+

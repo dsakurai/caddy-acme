@@ -1,3 +1,6 @@
-localhost # This serves the HTTPS server at localhost:443 in this container. This port is mapped to the host machine at 8443.
+caddy-ca {
+    tls internal # Don't use external CA like Let's encrypt.
+    acme_server
+    # respond "Caddy CA is running."
+}
 
-respond "This webpage is served with Caddy."

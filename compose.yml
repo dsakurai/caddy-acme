@@ -6,7 +6,6 @@ services:
     container_name: caddy-ca
     restart: unless-stopped
     build:
-      context: .
       dockerfile: ./caddy-ca/Dockerfile
     volumes:
       - ./caddy-ca/Caddyfile:/etc/caddy/Caddyfile:ro,Z
@@ -25,7 +24,6 @@ services:
           # Thus, leaf.localhost:8000 resolves to this container as long as the port is mapped.
           - leaf.localhost # ACME certificate requires a domain name with a "."
     build:
-      context: .
       dockerfile: ./caddy-leaf/Dockerfile
     container_name: caddy-leaf
     restart: unless-stopped

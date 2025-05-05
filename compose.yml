@@ -5,8 +5,6 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    networks:
-      - caddy-net
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro,Z
       - ./site:/srv:Z
@@ -17,13 +15,8 @@ services:
       - "9000" # Internal admin API (no need to publish)
       - "80" # Internal admin API (no need to publish)
       - "443" # Internal admin API (no need to publish)
-    extra_hosts:
-      - "leaf.local:caddy-leaf"
     networks:
-      caddy-net:
-        ipv4_address: 10.89.1.11
-    extra_hosts:
-      - "leaf.local:10.89.1.10"  # <-- valid IP now
+      - caddy_network
     healthcheck:
       # Generate the certificate, which will be used by the consumer (caddy-leaf)
       test: ["CMD", "test", "-f", "/data/caddy/pki/authorities/local/root.crt"]
@@ -37,14 +30,15 @@ services:
     depends_on:
       caddy-ca:
         condition: service_healthy
+    networks:
+      caddy_network:
+        aliases:
+          - leaf.local
     build:
       context: .
       dockerfile: ./caddy-leaf/Dockerfile
     container_name: caddy-leaf
     restart: unless-stopped
-    networks:
-      caddy-net:
-        ipv4_address: 10.89.1.10
     volumes:
       - ./caddy-leaf/Caddyfile:/etc/caddy/Caddyfile:ro,Z
       - ./caddy-leaf/site:/srv:Z
@@ -61,10 +55,5 @@ services:
       - CADDY_INSECURE_TLS=1
 
 networks:
-  caddy-net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 10.89.1.0/24
-
-
+    caddy_network:
+      driver: bridge

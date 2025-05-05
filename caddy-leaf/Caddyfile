@@ -1,6 +1,3 @@
-#{
-#        auto_https off # this is bad
-#}
 
 http://leaf.local {
 

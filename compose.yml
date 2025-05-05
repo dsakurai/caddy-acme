@@ -25,6 +25,7 @@ services:
     extra_hosts:
       - "leaf.local:10.89.1.10"  # <-- valid IP now
     healthcheck:
+      # Generate the certificate, which will be used by the consumer (caddy-leaf)
       test: ["CMD", "test", "-f", "/data/caddy/pki/authorities/local/root.crt"]
       interval: 2s
       timeout: 1s
@@ -36,7 +37,6 @@ services:
     depends_on:
       caddy-ca:
         condition: service_healthy
-    # image: caddy:latest
     build:
       context: .
       dockerfile: ./caddy-leaf/Dockerfile
@@ -50,7 +50,6 @@ services:
       - ./caddy-leaf/site:/srv:Z
       - ./caddy-leaf/caddy_data:/data:Z
       - ./caddy-leaf/caddy_config:/config:Z
-      - ./caddy_data/caddy/pki/authorities/local/root.crt:/acme/root.crt:ro,z
       - ./caddy_data/caddy/pki/authorities/local/root.crt:/etc/caddy/root.crt:ro,z
     ports:
       - "8000:443" # HTTPS leaf exposed

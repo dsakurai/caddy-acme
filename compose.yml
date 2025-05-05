@@ -12,7 +12,6 @@ services:
       - ./site:/srv:Z
       - ./caddy_data:/data:z
       - ./caddy_config:/config:Z
-      - ./ca_root:/ca_root:z
     expose:
       - "2019" # Internal admin API (no need to publish)
       - "9000" # Internal admin API (no need to publish)

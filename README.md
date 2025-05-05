@@ -9,3 +9,5 @@ Read the script for more details.
 You would need to add the root certificate for the host machine.
 Check the script for the path.
 
+This project is intended for development use, since the Caddy ACME is meant for that purpose.
+

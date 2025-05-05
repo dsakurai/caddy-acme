@@ -3,7 +3,7 @@ Caddy ACME Example With Podman
 
 Demonstrates how to use a Caddy instance to serve ACME and to host an HTTPS website with another instance.
 
-Simply, run `./up.sh` to start the ACME server.
+Simply, run `./up.sh` to start the instances.
 
 The script creates two podman containers: an ACME server and an HTTPS server.
 They connect to a shared podman network, within which the ACME server will be available.

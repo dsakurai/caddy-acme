@@ -4,7 +4,7 @@ podman-compose --podman-run-args=--replace up -d caddy-ca
 
 echo "Waiting for the root certificate to be generated..."
 
-while [ ! -f ./caddy_data/caddy/pki/authorities/local/root.crt ]
+while [ ! -f ./caddy-ca/caddy_data/caddy/pki/authorities/local/root.crt ]
 do 
 	sleep 1 # Wait for the caddy-ca to start and serve the root certificate.
 done

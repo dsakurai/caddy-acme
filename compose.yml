@@ -7,11 +7,11 @@ services:
     restart: unless-stopped
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./caddy-ca/Dockerfile
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro,Z
-      - ./caddy_data:/data:z
-      - ./caddy_config:/config:Z
+      - ./caddy-ca/Caddyfile:/etc/caddy/Caddyfile:ro,Z
+      - ./caddy-ca/caddy_data:/data:z
+      - ./caddy-ca/caddy_config:/config:Z
     expose:
       - "2019" # For ACME
 
@@ -34,7 +34,7 @@ services:
       - ./caddy-leaf/site:/srv:Z
       - ./caddy-leaf/caddy_data:/data:Z
       - ./caddy-leaf/caddy_config:/config:Z
-      - ./caddy_data/caddy/pki/authorities/local/root.crt:/etc/caddy/root.crt:ro,z
+      - ./caddy-ca/caddy_data/caddy/pki/authorities/local/root.crt:/etc/caddy/root.crt:ro,z
     ports:
       - "8000:443" # HTTPS leaf exposed
     expose:

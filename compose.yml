@@ -12,26 +12,14 @@ services:
       - ./caddy_config:/config:Z
     expose:
       - "2019" # Internal admin API (no need to publish)
-      - "9000" # Internal admin API (no need to publish)
       - "80" # Internal admin API (no need to publish)
       - "443" # Internal admin API (no need to publish)
-    healthcheck:
-      # Generate the certificate, which will be used by the consumer (caddy-leaf)
-      test: ["CMD", "test", "-f", "/data/caddy/pki/authorities/local/root.crt"]
-      interval: 2s
-      timeout: 1s
-      retries: 10
-      start_period: 100s
-
 
   caddy-leaf:
-    depends_on:
-      caddy-ca:
-        condition: service_healthy
     networks:
       default:
         aliases:
-          - leaf.local
+          - leaf.local # ACME certificate requires a domain name with a "."
     build:
       context: .
       dockerfile: ./caddy-leaf/Dockerfile

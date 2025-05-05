@@ -10,7 +10,7 @@ They connect to a shared podman network, within which the ACME server will be av
 Read the script for more details.
 
 You would need to add the root certificate for the host machine.
-(Check the script for the path.)
+(Read the script to learn the path.)
 Afterwards, you can access the HTTPS server from the host machine at `leaf.localhost:8000`.
 You can write your own podman-compose files to add your own HTTPS servers.
 

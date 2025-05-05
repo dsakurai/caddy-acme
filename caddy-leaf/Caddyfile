@@ -1,6 +1,6 @@
 
 # We allow http only for establishing the trust with ACME.
-http://leaf.local {
+http://leaf.localhost {
 
 	# This is http (for http-01 challenge from the ACME server.)
 	@acmeChallenge path /.well-known/acme-challenge/*
@@ -12,15 +12,16 @@ http://leaf.local {
 	# https otherwise
 	@notAcmeChallenge not path /.well-known/acme-challenge/*
 	handle @notAcmeChallenge {
-		redir https://leaf.local{uri} permanent
+		redir https://leaf.localhost{uri} permanent
 	}
 }
 
 
-https://leaf.local {
+https://leaf.localhost {
 
 
 	tls {
+		# ACME server that issues the certificate
 		ca https://caddy-ca/acme/local/directory
 		ca_root /etc/caddy/root.crt
 	}

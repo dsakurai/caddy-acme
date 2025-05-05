@@ -14,6 +14,8 @@ You would need to add the root certificate for the host machine.
 Afterwards, you can access the HTTPS server from the host machine at `leaf.localhost:8000`.
 You can write your own podman-compose files to add your own HTTPS servers.
 
+Tested with Caddy's official Docker image, version 2.10.0.
+
 ---
 
 This project is intended for development use, since the Caddy's internal ACME is often used for that purpose.

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-podman network create shared_net
+podman network create podman_dev_net
 
 podman-compose --podman-run-args=--replace up -d caddy_acme
 

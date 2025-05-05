@@ -3,12 +3,12 @@ services:
     networks:
       sharednet:
         aliases:
-          # Overrides the hostname for the podman network.
+          - leaf.localhost # ACME requires the client HTTPS server to have a domain name with a ".".
+          # This container is exposed as `leaf.localhost` inside the podman network.
           #
           # The host machine, however, resolves it to 127.0.0.1.
-          # Thus, leaf.localhost:8000 resolves to this container as long as the port is mapped.
-          # - leaf.local # ACME certificate requires a domain name with a "."
-          - leaf.localhost # ACME certificate requires a domain name with a "."
+          # Thus, `leaf.localhost:8000` resolves to this container as long as the port is mapped.
+          # In this way, you can access this container without adding it to the hostname database of the host machine (like by editing `/etc/hosts`).
     build:
       dockerfile: Dockerfile
     container_name: caddy_leaf

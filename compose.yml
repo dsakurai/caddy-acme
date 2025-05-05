@@ -1,3 +1,6 @@
+# Assumes podman-compose.
+# This is especially relevant for networking.
+
 services:
   caddy-ca:
     container_name: caddy-ca

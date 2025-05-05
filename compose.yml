@@ -19,6 +19,6 @@ services:
 
 networks:
   sharednet:
-    external: true
+    external: false # Create this network here
     name: podman_dev_net
 

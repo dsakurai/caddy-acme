@@ -1,4 +1,4 @@
-Demonstrates how to use Caddy to serve ACME and to use it to host a HTTPS website.
+Demonstrates how to use a Caddy instance to serve ACME and to host a HTTPS website with another.
 
 Run `./up.sh` to start the ACME server.
 This script creates two podman containers: an ACME server and an HTTPS server.

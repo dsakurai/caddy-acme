@@ -1,7 +1,13 @@
-leaf.local:443 {
+{
+        auto_https off # this is bad
+}
+
+http://leaf.local {
+
 
 	tls {
 		ca https://caddy-ca/acme/local/directory
+		ca_root /etc/caddy/root.crt
 	}
 
 	respond "CA leaf running."

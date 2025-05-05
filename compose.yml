@@ -3,6 +3,9 @@ services:
     image: caddy:latest
     container_name: caddy-ca
     restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
     networks:
       - caddy-net
     volumes:
@@ -42,9 +45,11 @@ services:
       - ./caddy-leaf/caddy_data:/data:Z
       - ./caddy-leaf/caddy_config:/config:Z
       - ./caddy_data/caddy/pki/authorities/local/root.crt:/acme/root.crt:ro,z
+      - ./caddy_data/caddy/pki/authorities/local/root.crt:/etc/caddy/root.crt:ro,z
     ports:
       - "8000:443" # HTTPS leaf exposed
     expose:
+      - "80"
       - "443"
     environment:
       - CADDY_INSECURE_ACME=1

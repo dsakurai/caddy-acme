@@ -10,9 +10,7 @@ services:
       - ./caddy_data:/data:z
       - ./caddy_config:/config:Z
     expose:
-      - "2019" # Internal admin API (no need to publish)
-      - "80" # Internal admin API (no need to publish)
-      - "443" # Internal admin API (no need to publish)
+      - "2019" # For ACME
 
   caddy-leaf:
     networks:

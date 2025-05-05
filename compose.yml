@@ -24,10 +24,18 @@ services:
         ipv4_address: 10.89.1.11
     extra_hosts:
       - "leaf.local:10.89.1.10"  # <-- valid IP now
+    healthcheck:
+      test: ["CMD", "test", "-f", "/data/caddy/pki/authorities/local/root.crt"]
+      interval: 2s
+      timeout: 1s
+      retries: 10
+      start_period: 100s
+
 
   caddy-leaf:
     depends_on:
-      - caddy-ca
+      caddy-ca:
+        condition: service_healthy
     # image: caddy:latest
     build:
       context: .

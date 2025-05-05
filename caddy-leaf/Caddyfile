@@ -1,8 +1,23 @@
-{
-        auto_https off # this is bad
-}
+#{
+#        auto_https off # this is bad
+#}
 
 http://leaf.local {
+
+	@acmeChallenge path /.well-known/acme-challenge/*
+	handle @acmeChallenge {
+		root * /srv
+		file_server
+	}
+
+	@notAcmeChallenge not path /.well-known/acme-challenge/*
+	handle @notAcmeChallenge {
+		redir https://leaf.local{uri} permanent
+	}
+}
+
+
+https://leaf.local {
 
 
 	tls {

@@ -1,11 +1,10 @@
 services:
   caddy-ca:
-    image: caddy:latest
     container_name: caddy-ca
     restart: unless-stopped
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./Dockerfile
     networks:
       - caddy-net
     volumes:

@@ -18,7 +18,7 @@ services:
     networks:
       default:
         aliases:
-          # Overrides `leaf.localhost' for the podman network.
+          # Overrides the hostname for the podman network.
           #
           # The host machine, however, resolves it to 127.0.0.1.
           # Thus, leaf.localhost:8000 resolves to this container as long as the port is mapped.

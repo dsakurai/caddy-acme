@@ -28,5 +28,5 @@ services:
 networks:
   sharednet:
     external: true
-    name: podman_dev_net
+    name: local_acme_net
 

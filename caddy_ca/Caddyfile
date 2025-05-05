@@ -1,4 +1,4 @@
-caddy-ca {
+caddy_ca {
     tls internal # Don't use external CA like Let's encrypt.
     acme_server
 }

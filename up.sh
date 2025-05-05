@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 
-podman-compose --podman-run-args=--replace up -d caddy-ca
+podman-compose --podman-run-args=--replace up -d caddy_ca
 
 echo "Waiting for the root certificate to be generated..."
 
-while [ ! -f ./caddy-ca/caddy_data/caddy/pki/authorities/local/root.crt ]
+while [ ! -f ./caddy_ca/caddy_data/caddy/pki/authorities/local/root.crt ]
 do 
 	sleep 1 # Wait for the caddy-ca to start and serve the root certificate.
 done
 
 echo "The root certificate is generated."
 
-podman-compose --podman-run-args=--replace up -d caddy-leaf
+podman-compose --podman-run-args=--replace up -d caddy_leaf
 

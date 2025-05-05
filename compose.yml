@@ -2,19 +2,19 @@
 # This is especially relevant for networking.
 
 services:
-  caddy-ca:
-    container_name: caddy-ca
+  caddy_ca:
+    container_name: caddy_ca
     restart: unless-stopped
     build:
-      dockerfile: ./caddy-ca/Dockerfile
+      dockerfile: ./caddy_ca/Dockerfile
     volumes:
-      - ./caddy-ca/Caddyfile:/etc/caddy/Caddyfile:ro,Z
-      - ./caddy-ca/caddy_data:/data:z
-      - ./caddy-ca/caddy_config:/config:Z
+      - ./caddy_ca/Caddyfile:/etc/caddy/Caddyfile:ro,Z
+      - ./caddy_ca/caddy_data:/data:z
+      - ./caddy_ca/caddy_config:/config:Z
     expose:
       - "2019" # For ACME
 
-  caddy-leaf:
+  caddy_leaf:
     networks:
       default:
         aliases:
@@ -24,15 +24,15 @@ services:
           # Thus, leaf.localhost:8000 resolves to this container as long as the port is mapped.
           - leaf.localhost # ACME certificate requires a domain name with a "."
     build:
-      dockerfile: ./caddy-leaf/Dockerfile
-    container_name: caddy-leaf
+      dockerfile: ./caddy_leaf/Dockerfile
+    container_name: caddy_leaf
     restart: unless-stopped
     volumes:
-      - ./caddy-leaf/Caddyfile:/etc/caddy/Caddyfile:ro,Z
-      - ./caddy-leaf/site:/srv:Z
-      - ./caddy-leaf/caddy_data:/data:Z
-      - ./caddy-leaf/caddy_config:/config:Z
-      - ./caddy-ca/caddy_data/caddy/pki/authorities/local/root.crt:/etc/caddy/root.crt:ro,z
+      - ./caddy_leaf/Caddyfile:/etc/caddy/Caddyfile:ro,Z
+      - ./caddy_leaf/site:/srv:Z
+      - ./caddy_leaf/caddy_data:/data:Z
+      - ./caddy_leaf/caddy_config:/config:Z
+      - ./caddy_ca/caddy_data/caddy/pki/authorities/local/root.crt:/etc/caddy/root.crt:ro,z
     ports:
       - "8000:443" # HTTPS leaf exposed
     expose:

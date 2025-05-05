@@ -7,7 +7,6 @@ services:
       dockerfile: ./Dockerfile
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro,Z
-      - ./site:/srv:Z
       - ./caddy_data:/data:z
       - ./caddy_config:/config:Z
     expose:
@@ -36,7 +35,4 @@ services:
     expose:
       - "80"
       - "443"
-    environment:
-      - CADDY_INSECURE_ACME=1
-      - CADDY_INSECURE_TLS=1
 

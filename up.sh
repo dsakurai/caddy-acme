@@ -2,16 +2,30 @@
 
 podman network create local_acme_net
 
-podman-compose --podman-run-args=--replace up -d caddy_acme
+# Name of the ACME podman container
+ACME_CONTAINER=caddy_acme
+ACME_CONTAINER_DIR="$ACME_CONTAINER" # Directory containing the config
 
-echo "Waiting for the root certificate to be generated..."
+# Name of the example https server, which is another podman container. 
+HTTPS_CONTAINER=caddy_leaf
+HTTPS_CONTAINER_DIR="$HTTPS_CONTAINER" # Directory containing the config
 
-while [ ! -f ./caddy_acme/caddy_data/caddy/pki/authorities/local/root.crt ]
+# The path to the certificate.
+CERTIFICATE="${ACME_CONTAINER_DIR}/caddy_data/caddy/pki/authorities/local/root.crt"
+
+# Run the ACME server
+podman-compose --podman-run-args=--replace up -d $ACME_CONTAINER
+
+echo "Waiting for the root certificate to be generated at $PWD/$CERTIFICATE"
+
+# Wait for the ACME server (in the podman container) to start and serve the root certificate.
+while [ ! -f "$CERTIFICATE" ]
 do 
-	sleep 1 # Wait for the caddy-acme to start and serve the root certificate.
+	sleep 1
 done
 
-echo "The root certificate is generated."
+echo "The root certificate is available."
 
-(cd caddy_leaf/ && podman-compose --podman-run-args=--replace up -d caddy_leaf)
+# Start the example https server.
+(cd "$HTTPS_CONTAINER_DIR" && podman-compose --podman-run-args=--replace up -d $HTTPS_CONTAINER)
 

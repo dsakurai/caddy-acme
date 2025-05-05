@@ -15,8 +15,6 @@ services:
       - "9000" # Internal admin API (no need to publish)
       - "80" # Internal admin API (no need to publish)
       - "443" # Internal admin API (no need to publish)
-    networks:
-      - caddy_network
     healthcheck:
       # Generate the certificate, which will be used by the consumer (caddy-leaf)
       test: ["CMD", "test", "-f", "/data/caddy/pki/authorities/local/root.crt"]
@@ -31,7 +29,7 @@ services:
       caddy-ca:
         condition: service_healthy
     networks:
-      caddy_network:
+      default:
         aliases:
           - leaf.local
     build:
@@ -54,6 +52,3 @@ services:
       - CADDY_INSECURE_ACME=1
       - CADDY_INSECURE_TLS=1
 
-networks:
-    caddy_network:
-      driver: bridge

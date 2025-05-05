@@ -16,6 +16,11 @@ You can write your own podman-compose files to add your own HTTPS servers.
 
 Tested with Caddy's official Docker image, version 2.10.0.
 
+TODO
+---
+
+Redirecting HTTP to HTTPS seems not to be handled automatically.
+
 ---
 
 This project is intended for development use, since the Caddy's internal ACME is often used for that purpose.

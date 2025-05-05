@@ -16,4 +16,4 @@ You can write your own podman-compose files to add your own HTTPS servers.
 
 ---
 
-This project is intended for development use, since the Caddy ACME is meant for that purpose.
+This project is intended for development use, since the Caddy's internal ACME is often used for that purpose.

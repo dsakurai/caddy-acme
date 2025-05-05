@@ -1,12 +1,15 @@
 
+# We allow http only for establishing the trust with ACME.
 http://leaf.local {
 
+	# This is http
 	@acmeChallenge path /.well-known/acme-challenge/*
 	handle @acmeChallenge {
 		root * /srv
 		file_server
 	}
 
+	# https otherwise
 	@notAcmeChallenge not path /.well-known/acme-challenge/*
 	handle @notAcmeChallenge {
 		redir https://leaf.local{uri} permanent

@@ -1,0 +1,32 @@
+services:
+  caddy_leaf:
+    networks:
+      sharednet:
+        aliases:
+          # Overrides the hostname for the podman network.
+          #
+          # The host machine, however, resolves it to 127.0.0.1.
+          # Thus, leaf.localhost:8000 resolves to this container as long as the port is mapped.
+          # - leaf.local # ACME certificate requires a domain name with a "."
+          - leaf.localhost # ACME certificate requires a domain name with a "."
+    build:
+      dockerfile: Dockerfile
+    container_name: caddy_leaf
+    restart: unless-stopped
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro,Z
+      - ./site:/srv:Z
+      - ./caddy_data:/data:Z
+      - ./caddy_config:/config:Z
+      - ../caddy_acme/caddy_data/caddy/pki/authorities/local/root.crt:/etc/caddy/root.crt:ro,z
+    ports:
+      - "8000:443" # HTTPS leaf exposed
+    expose:
+      - "80"  # For ACME's http-01 challenge
+      - "443" # For serving a website with HTTPS
+
+networks:
+  sharednet:
+    external: true
+    name: shared_net
+

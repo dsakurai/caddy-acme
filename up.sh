@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+podman network create shared_net
+
 podman-compose --podman-run-args=--replace up -d caddy_acme
 
 echo "Waiting for the root certificate to be generated..."
@@ -11,5 +13,5 @@ done
 
 echo "The root certificate is generated."
 
-podman-compose --podman-run-args=--replace up -d caddy_leaf
+(cd caddy_leaf/ && podman-compose --podman-run-args=--replace up -d caddy_leaf)
 

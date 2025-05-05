@@ -2,15 +2,15 @@
 # This is especially relevant for networking.
 
 services:
-  caddy_ca:
-    container_name: caddy_ca
+  caddy_acme:
+    container_name: caddy_acme
     restart: unless-stopped
     build:
-      dockerfile: ./caddy_ca/Dockerfile
+      dockerfile: ./caddy_acme/Dockerfile
     volumes:
-      - ./caddy_ca/Caddyfile:/etc/caddy/Caddyfile:ro,Z
-      - ./caddy_ca/caddy_data:/data:z
-      - ./caddy_ca/caddy_config:/config:Z
+      - ./caddy_acme/Caddyfile:/etc/caddy/Caddyfile:ro,Z
+      - ./caddy_acme/caddy_data:/data:z
+      - ./caddy_acme/caddy_config:/config:Z
     expose:
       - "2019" # For ACME
 
@@ -32,7 +32,7 @@ services:
       - ./caddy_leaf/site:/srv:Z
       - ./caddy_leaf/caddy_data:/data:Z
       - ./caddy_leaf/caddy_config:/config:Z
-      - ./caddy_ca/caddy_data/caddy/pki/authorities/local/root.crt:/etc/caddy/root.crt:ro,z
+      - ./caddy_acme/caddy_data/caddy/pki/authorities/local/root.crt:/etc/caddy/root.crt:ro,z
     ports:
       - "8000:443" # HTTPS leaf exposed
     expose:

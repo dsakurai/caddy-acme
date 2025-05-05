@@ -22,7 +22,7 @@ https://leaf.localhost {
 
 	tls {
 		# ACME server that issues the certificate
-		ca https://caddy_ca/acme/local/directory
+		ca https://caddy_acme/acme/local/directory
 		ca_root /etc/caddy/root.crt
 	}
 
